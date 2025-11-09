@@ -1,307 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fairness Monitoring Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    .animate-pulse {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fairness Monitoring Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.1.2/dist/chartjs-plugin-annotation.min.js"></script>   <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
 </head>
 <body class="min-h-screen text-white">
-  <div class="p-8">
-    <!-- Header -->
-    <div class="mb-8">
-      <div class="flex items-center justify-between mb-2">
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Fairness Monitoring Dashboard
-        </h1>
-        <div class="flex items-center gap-3 px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
-          <svg class="w-5 h-5 text-green-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-          </svg>
-          <span class="text-sm font-medium">Live Monitoring</span>
-        </div>
-      </div>
-      <p class="text-slate-400">Healthcare Risk Algorithm - Care Management Referrals</p>
-      <p class="text-slate-500 text-sm">Week 12 | Last Updated: 2 minutes ago</p>
-    </div>
+  <div class="p-8">
+        <div class="mb-8">
+      <div class="flex items-center justify-between mb-2">
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+          Fairness Monitoring Dashboard
+        </h1>
+        <div class="flex items-center gap-3 px-4 py-2 bg-slate-800/50 rounded-lg border border-slate-700">
+          <svg class="w-5 h-5 text-green-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          <span class="text-sm font-medium">Live Monitoring</span>
+        </div>
+      </div>
+      <p class="text-slate-400">Healthcare Risk Algorithm - Care Management Referrals</p>
+      <p class="text-slate-500 text-sm">Week 12 | Last Updated: 2 minutes ago</p>
+    </div>
 
-    <!-- Alert Banner -->
-    <div class="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg flex items-center gap-3">
-      <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-        <line x1="12" y1="9" x2="12" y2="13"/>
-        <line x1="12" y1="17" x2="12.01" y2="17"/>
-      </svg>
-      <div>
-        <p class="font-semibold text-yellow-400">Approaching Fairness Thresholds</p>
-        <p class="text-sm text-slate-300">Metrics improving but require continued monitoring.</p>
-      </div>
-    </div>
+        <div class="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg flex items-center gap-3">
+      <svg class="w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <div>
+        <p class="font-semibold text-yellow-400">Approaching Fairness Thresholds</p>
+        <p class="text-sm text-slate-300">Metrics improving but require continued monitoring.</p>
+      </div>
+    </div>
 
-    <!-- Key Metrics Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <!-- DP Ratio -->
-      <div class="p-6 rounded-xl border bg-yellow-500/10 border-slate-700 backdrop-blur-sm">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-slate-400 text-sm font-medium">DP Ratio</span>
-          <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <div class="text-4xl font-bold mb-2 text-yellow-500">0.790</div>
-        <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span class="text-slate-300">+0.27 from W1</span>
-        </div>
-        <div class="mt-3 pt-3 border-t border-slate-700">
-          <span class="text-xs text-slate-500">Target: ≥0.80</span>
-        </div>
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="p-6 rounded-xl border bg-yellow-500/10 border-slate-700 backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-slate-400 text-sm font-medium">DP Ratio</span>
+          <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold mb-2 text-yellow-500">0.790</div>
+        <div class="flex items-center gap-2 text-sm">
+          <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+            <polyline points="17 6 23 6 23 12"/>
+          </svg>
+          <span class="text-slate-300">+0.27 from W1</span>
+        </div>
+        <div class="mt-3 pt-3 border-t border-slate-700">
+          <span class="text-xs text-slate-500">Target: ≥0.80</span>
+        </div>
+      </div>
 
-      <!-- EO Gap -->
-      <div class="p-6 rounded-xl border bg-yellow-500/10 border-slate-700 backdrop-blur-sm">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-slate-400 text-sm font-medium">EO Gap</span>
-          <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
-            <line x1="12" y1="9" x2="12" y2="13"/>
-            <line x1="12" y1="17" x2="12.01" y2="17"/>
-          </svg>
-        </div>
-        <div class="text-4xl font-bold mb-2 text-yellow-500">-0.110</div>
-        <div class="flex items-center gap-2 text-sm">
-          <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-            <polyline points="17 6 23 6 23 12"/>
-          </svg>
-          <span class="text-slate-300">Improving</span>
-        </div>
-        <div class="mt-3 pt-3 border-t border-slate-700">
-          <span class="text-xs text-slate-500">Target: ±0.05</span>
-        </div>
-      </div>
+            <div class="p-6 rounded-xl border bg-yellow-500/10 border-slate-700 backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-slate-400 text-sm font-medium">EO Gap</span>
+          <svg class="w-5 h-5 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold mb-2 text-yellow-500">-0.110</div>
+        <div class="flex items-center gap-2 text-sm">
+          <svg class="w-4 h-4 text-green-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+            <polyline points="17 6 23 6 23 12"/>
+          </svg>
+          <span class="text-slate-300">Improving</span>
+        </div>
+        <div class="mt-3 pt-3 border-t border-slate-700">
+          <span class="text-xs text-slate-500">Target: ±0.05</span>
+        </div>
+      </div>
 
-      <!-- Black Referrals -->
-      <div class="p-6 rounded-xl border bg-blue-500/5 border-slate-700 backdrop-blur-sm">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-slate-400 text-sm font-medium">Black Referrals</span>
-          <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="text-4xl font-bold mb-2 text-blue-400">79</div>
-        <div class="text-sm text-slate-300">18.8% of cohort</div>
-        <div class="mt-3 pt-3 border-t border-slate-700">
-          <span class="text-xs text-slate-500">Total Black: 421</span>
-        </div>
-      </div>
+            <div class="p-6 rounded-xl border bg-blue-500/5 border-slate-700 backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-slate-400 text-sm font-medium">Black Referrals</span>
+          <svg class="w-5 h-5 text-blue-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold mb-2 text-blue-400">79</div>
+        <div class="text-sm text-slate-300">18.8% of cohort</div>
+        <div class="mt-3 pt-3 border-t border-slate-700">
+          <span class="text-xs text-slate-500">Total Black: 421</span>
+        </div>
+      </div>
 
-      <!-- White Referrals -->
-      <div class="p-6 rounded-xl border bg-purple-500/5 border-slate-700 backdrop-blur-sm">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-slate-400 text-sm font-medium">White Referrals</span>
-          <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        </div>
-        <div class="text-4xl font-bold mb-2 text-purple-400">124</div>
-        <div class="text-sm text-slate-300">21.4% of cohort</div>
-        <div class="mt-3 pt-3 border-t border-slate-700">
-          <span class="text-xs text-slate-500">Total White: 579</span>
-        </div>
-      </div>
-    </div>
+            <div class="p-6 rounded-xl border bg-purple-500/5 border-slate-700 backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-slate-400 text-sm font-medium">White Referrals</span>
+          <svg class="w-5 h-5 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="text-4xl font-bold mb-2 text-purple-400">124</div>
+        <div class="text-sm text-slate-300">21.4% of cohort</div>
+        <div class="mt-3 pt-3 border-t border-slate-700">
+          <span class="text-xs text-slate-500">Total White: 579</span>
+        </div>
+      </div>
+    </div>
 
-    <!-- Charts -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
-        <h3 class="text-lg font-semibold mb-4 text-slate-200">Demographic Parity Trend</h3>
-        <canvas id="dpChart" height="250"></canvas>
-      </div>
-      <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
-        <h3 class="text-lg font-semibold mb-4 text-slate-200">Equal Opportunity Gap Trend</h3>
-        <canvas id="eoChart" height="250"></canvas>
-      </div>
-    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
+        <h3 class="text-lg font-semibold mb-4 text-slate-200">Demographic Parity Trend</h3>
+        <canvas id="dpChart" height="250"></canvas>
+      </div>
+      <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
+        <h3 class="text-lg font-semibold mb-4 text-slate-200">Equal Opportunity Gap Trend</h3>
+        <canvas id="eoChart" height="250"></canvas>
+      </div>
+    </div>
 
-    <!-- Confusion Matrix -->
-    <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
-      <h3 class="text-lg font-semibold mb-4 text-slate-200">Confusion Matrix Breakdown</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- White -->
-        <div class="p-4 rounded-lg bg-slate-900/50 border border-slate-700">
-          <h4 class="text-md font-semibold mb-3 text-slate-300">White Patients</h4>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="p-3 rounded bg-green-500/10 border border-green-500/30">
-              <div class="text-xs text-slate-400 mb-1">True Positive</div>
-              <div class="text-2xl font-bold text-green-400">105</div>
-            </div>
-            <div class="p-3 rounded bg-red-500/10 border border-red-500/30">
-              <div class="text-xs text-slate-400 mb-1">False Positive</div>
-              <div class="text-2xl font-bold text-red-400">6</div>
-            </div>
-            <div class="p-3 rounded bg-orange-500/10 border border-orange-500/30">
-              <div class="text-xs text-slate-400 mb-1">False Negative</div>
-              <div class="text-2xl font-bold text-orange-400">54</div>
-            </div>
-            <div class="p-3 rounded bg-blue-500/10 border border-blue-500/30">
-              <div class="text-xs text-slate-400 mb-1">True Negative</div>
-              <div class="text-2xl font-bold text-blue-400">414</div>
-            </div>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700 grid grid-cols-3 gap-2 text-xs">
-            <div><span class="text-slate-500">TPR:</span> <span class="ml-1 font-semibold text-slate-300">0.660</span></div>
-            <div><span class="text-slate-500">FPR:</span> <span class="ml-1 font-semibold text-slate-300">0.014</span></div>
-            <div><span class="text-slate-500">FNR:</span> <span class="ml-1 font-semibold text-slate-300">0.340</span></div>
-          </div>
-        </div>
-        <!-- Black -->
-        <div class="p-4 rounded-lg bg-slate-900/50 border border-slate-700">
-          <h4 class="text-md font-semibold mb-3 text-slate-300">Black Patients</h4>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="p-3 rounded bg-green-500/10 border border-green-500/30">
-              <div class="text-xs text-slate-400 mb-1">True Positive</div>
-              <div class="text-2xl font-bold text-green-400">38</div>
-            </div>
-            <div class="p-3 rounded bg-red-500/10 border border-red-500/30">
-              <div class="text-xs text-slate-400 mb-1">False Positive</div>
-              <div class="text-2xl font-bold text-red-400">1</div>
-            </div>
-            <div class="p-3 rounded bg-orange-500/10 border border-orange-500/30">
-              <div class="text-xs text-slate-400 mb-1">False Negative</div>
-              <div class="text-2xl font-bold text-orange-400">103</div>
-            </div>
-            <div class="p-3 rounded bg-blue-500/10 border border-blue-500/30">
-              <div class="text-xs text-slate-400 mb-1">True Negative</div>
-              <div class="text-2xl font-bold text-blue-400">279</div>
-            </div>
-          </div>
-          <div class="mt-3 pt-3 border-t border-slate-700 grid grid-cols-3 gap-2 text-xs">
-            <div><span class="text-slate-500">TPR:</span> <span class="ml-1 font-semibold text-slate-300">0.270</span></div>
-            <div><span class="text-slate-500">FPR:</span> <span class="ml-1 font-semibold text-slate-300">0.004</span></div>
-            <div><span class="text-slate-500">FNR:</span> <span class="ml-1 font-semibold text-slate-300">0.730</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="p-6 rounded-xl border border-slate-700 bg-slate-800/30 backdrop-blur-sm">
+      <h3 class="text-lg font-semibold mb-4 text-slate-200">Confusion Matrix Breakdown</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-4 rounded-lg bg-slate-900/50 border border-slate-700">
+          <h4 class="text-md font-semibold mb-3 text-slate-300">White Patients</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 rounded bg-green-500/10 border border-green-500/30">
+              <div class="text-xs text-slate-400 mb-1">True Positive</div>
+              <div class="text-2xl font-bold text-green-400">105</div>
+            </div>
+            <div class="p-3 rounded bg-red-500/10 border border-red-500/30">
+              <div class="text-xs text-slate-400 mb-1">False Positive</div>
+              <div class="text-2xl font-bold text-red-400">6</div>
+            </div>
+            <div class="p-3 rounded bg-orange-500/10 border border-orange-500/30">
+              <div class="text-xs text-slate-400 mb-1">False Negative</div>
+              <div class="text-2xl font-bold text-orange-400">54</div>
+            </div>
+            <div class="p-3 rounded bg-blue-500/10 border border-blue-500/30">
+              <div class="text-xs text-slate-400 mb-1">True Negative</div>
+              <div class="text-2xl font-bold text-blue-400">414</div>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-700 grid grid-cols-3 gap-2 text-xs">
+            <div><span class="text-slate-500">TPR:</span> <span class="ml-1 font-semibold text-slate-300">0.660</span></div>
+            <div><span class="text-slate-500">FPR:</span> <span class="ml-1 font-semibold text-slate-300">0.014</span></div>
+            <div><span class="text-slate-500">FNR:</span> <span class="ml-1 font-semibold text-slate-300">0.340</span></div>
+          </div>
+        </div>
+                <div class="p-4 rounded-lg bg-slate-900/50 border border-slate-700">
+          <h4 class="text-md font-semibold mb-3 text-slate-300">Black Patients</h4>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 rounded bg-green-500/10 border border-green-500/30">
+              <div class="text-xs text-slate-400 mb-1">True Positive</div>
+              <div class="text-2xl font-bold text-green-400">38</div>
+            </div>
+            <div class="p-3 rounded bg-red-500/10 border border-red-500/30">
+              <div class="text-xs text-slate-400 mb-1">False Positive</div>
+              <div class="text-2xl font-bold text-red-400">1</div>
+            </div>
+            <div class="p-3 rounded bg-orange-500/10 border border-orange-500/30">
+              <div class="text-xs text-slate-400 mb-1">False Negative</div>
+              <div class="text-2xl font-bold text-orange-400">103</div>
+            </div>
+            <div class="p-3 rounded bg-blue-500/10 border border-blue-500/30">
+              <div class="text-xs text-slate-400 mb-1">True Negative</div>
+              <div class="text-2xl font-bold text-blue-400">279</div>
+            </div>
+          </div>
+          <div class="mt-3 pt-3 border-t border-slate-700 grid grid-cols-3 gap-2 text-xs">
+            <div><span class="text-slate-500">TPR:</span> <span class="ml-1 font-semibold text-slate-300">0.270</span></div>
+            <div><span class="text-slate-500">FPR:</span> <span class="ml-1 font-semibold text-slate-300">0.004</span></div>
+            <div><span class="text-slate-500">FNR:</span> <span class="ml-1 font-semibold text-slate-300">0.730</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    // DP Chart
-    const dpCtx = document.getElementById('dpChart').getContext('2d');
-    new Chart(dpCtx, {
-      type: 'line',
-      data: {
-        labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12'],
-        datasets: [{
-          label: 'DP Ratio',
-          data: [0.52, 0.49, 0.48, 0.51, 0.53, 0.56, 0.59, 0.62, 0.67, 0.71, 0.75, 0.79],
-          borderColor: '#3b82f6',
-          backgroundColor: 'rgba(59, 130, 246, 0.1)',
-          tension: 0.4,
-          borderWidth: 3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          annotation: {
-            annotations: {
-              line1: {
-                type: 'line',
-                yMin: 0.80,
-                yMax: 0.80,
-                borderColor: '#10b981',
-                borderWidth: 2,
-                borderDash: [5, 5],
-                label: {
-                  content: 'Target (0.80)',
-                  enabled: true,
-                  position: 'end'
-                }
+  <script>
+    // DP Chart
+    const dpCtx = document.getElementById('dpChart').getContext('2d');
+    new Chart(dpCtx, {
+      type: 'line',
+      data: {
+        labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12'],
+        datasets: [{
+          label: 'DP Ratio',
+          data: [0.52, 0.49, 0.48, 0.51, 0.53, 0.56, 0.59, 0.62, 0.67, 0.71, 0.75, 0.79],
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          tension: 0.4,
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                yMin: 0.80,
+                yMax: 0.80,
+                borderColor: '#10b981',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                label: {
+                  content: 'Target (0.80)',
+                  enabled: true,
+                  position: 'end'
+                }
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1,
+            grid: { color: '#334155' },
+            ticks: { color: '#94a3b8' }
+          },
+          x: {
+            grid: { color: '#334155' },
+            ticks: { color: '#94a3b8' }
+          }
+        }
+      }
+    });
+
+    // EO Chart
+    const eoCtx = document.getElementById('eoChart').getContext('2d');
+    new Chart(eoCtx, {
+      type: 'line',
+      data: {
+        labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12'],
+        datasets: [{
+          label: 'EO Gap',
+          data: [-0.35, -0.38, -0.39, -0.36, -0.34, -0.31, -0.28, -0.25, -0.21, -0.18, -0.14, -0.11],
+          borderColor: '#a855f7',
+          backgroundColor: 'rgba(168, 85, 247, 0.1)',
+          tension: 0.4,
+          borderWidth: 3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          annotation: { // ✨ Added Annotations for EO Chart Targets
+              annotations: {
+                  targetUpper: {
+                      type: 'line',
+                      yMin: 0.05,
+                      yMax: 0.05,
+                      borderColor: '#10b981', 
+                      borderWidth: 2,
+                      borderDash: [5, 5],
+                      label: {
+                          content: 'Target (+0.05)',
+                          enabled: true,
+                          position: 'end',
+                          backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                      }
+                  },
+                  targetLower: {
+                      type: 'line',
+                      yMin: -0.05,
+                      yMax: -0.05,
+                      borderColor: '#10b981', 
+                      borderWidth: 2,
+                      borderDash: [5, 5],
+                      label: {
+                          content: 'Target (-0.05)',
+                          enabled: true,
+                          position: 'end',
+                          backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                      }
+                  }
               }
-            }
           }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            max: 1,
-            grid: { color: '#334155' },
-            ticks: { color: '#94a3b8' }
-          },
-          x: {
-            grid: { color: '#334155' },
-            ticks: { color: '#94a3b8' }
-          }
-        }
-      }
-    });
-
-    // EO Chart
-    const eoCtx = document.getElementById('eoChart').getContext('2d');
-    new Chart(eoCtx, {
-      type: 'line',
-      data: {
-        labels: ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10', 'W11', 'W12'],
-        datasets: [{
-          label: 'EO Gap',
-          data: [-0.35, -0.38, -0.39, -0.36, -0.34, -0.31, -0.28, -0.25, -0.21, -0.18, -0.14, -0.11],
-          borderColor: '#a855f7',
-          backgroundColor: 'rgba(168, 85, 247, 0.1)',
-          tension: 0.4,
-          borderWidth: 3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false }
-        },
-        scales: {
-          y: {
-            min: -0.5,
-            max: 0.1,
-            grid: { color: '#334155' },
-            ticks: { color: '#94a3b8' }
-          },
-          x: {
-            grid: { color: '#334155' },
-            ticks: { color: '#94a3b8' }
-          }
-        }
-      }
-    });
-  </script>
+        },
+        scales: {
+          y: {
+            min: -0.5,
+            max: 0.1,
+            grid: { color: '#334155' },
+            ticks: { color: '#94a3b8' }
+          },
+          x: {
+            grid: { color: '#334155' },
+            ticks: { color: '#94a3b8' }
+          }
+        }
+      }
+    });
+  </script>
 </body>
 </html>
